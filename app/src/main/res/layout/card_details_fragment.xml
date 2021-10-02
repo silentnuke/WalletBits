@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+
+    <data>
+
+        <import type="android.view.View" />
+
+        <import type="android.widget.CompoundButton" />
+
+        <variable
+            name="viewmodel"
+            type="com.silentnuke.bits.wallet.feature.carddetails.CardDetailsViewModel" />
+    </data>
+
+    <com.silentnuke.bits.wallet.ScrollChildSwipeRefreshLayout
+        android:id="@+id/refresh_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:onRefreshListener="@{viewmodel::refresh}"
+        app:refreshing="@{viewmodel.dataLoading}">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:paddingLeft="@dimen/activity_horizontal_margin"
+            android:paddingTop="@dimen/activity_vertical_margin"
+            android:paddingRight="@dimen/activity_horizontal_margin"
+            android:paddingBottom="@dimen/activity_vertical_margin">
+
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="@{viewmodel.isDataAvailable ? View.VISIBLE : View.GONE}">
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical">
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:labelFor="@+id/card_form_cardholder_name">
+
+                        <com.braintreepayments.cardform.view.CardholderNameEditText
+                            android:id="@+id/card_form_cardholder_name"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:enabled="false"
+                            android:hint="@string/bt_form_hint_cardholder_name"
+                            android:text="@={viewmodel.card.holder}"
+                            android:textColor="@android:color/black" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <com.google.android.material.textfield.TextInputLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/card_field_margin"
+                        android:labelFor="@+id/card_form_card_number">
+
+                        <com.braintreepayments.cardform.view.CardEditText
+                            android:id="@+id/card_form_card_number"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:enabled="false"
+                            android:hint="@string/bt_form_hint_card_number"
+                            android:inputType="number"
+                            android:text="@={viewmodel.card.number}"
+                            android:textColor="@android:color/black" />
+
+                    </com.google.android.material.textfield.TextInputLayout>
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="@dimen/card_field_margin"
+                        android:weightSum="2">
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_weight="1"
+                            android:labelFor="@+id/card_form_expiration">
+
+                            <com.braintreepayments.cardform.view.ExpirationDateEditText
+                                android:id="@+id/card_form_expiration"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:enabled="false"
+                                android:hint="@string/bt_form_hint_expiration"
+                                android:text="@={viewmodel.card.expiryDate}"
+                                android:textColor="@android:color/black" />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                        <com.google.android.material.textfield.TextInputLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_marginStart="@dimen/card_field_margin"
+                            android:layout_weight="1"
+                            android:labelFor="@+id/card_form_cvv">
+
+                            <com.braintreepayments.cardform.view.CvvEditText
+                                android:id="@+id/card_form_cvv"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:enabled="false"
+                                android:hint="@string/bt_form_hint_cvv"
+                                android:text="@={viewmodel.card.cvv}"
+                                android:textColor="@android:color/black" />
+
+                        </com.google.android.material.textfield.TextInputLayout>
+
+                    </LinearLayout>
+                </LinearLayout>
+
+            </ScrollView>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:orientation="vertical"
+                android:visibility="@{viewmodel.isDataAvailable ? View.GONE : View.VISIBLE}">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/no_data"
+                    android:textAppearance="?android:attr/textAppearanceLarge"
+                    android:visibility="@{viewmodel.dataLoading ? View.GONE : View.VISIBLE}" />
+            </LinearLayout>
+
+        </LinearLayout>
+    </com.silentnuke.bits.wallet.ScrollChildSwipeRefreshLayout>
+</layout>

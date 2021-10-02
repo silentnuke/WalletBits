@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Wallet</string>
+    <string name="add_card">Add Card</string>
+    <string name="card_details_fragment_dest">Card Details</string>
+    <string name="menu_done">Done</string>
+    <string name="card_deleted">Card deleted</string>
+    <string name="loading_cards_error">Error while loading cards</string>
+    <string name="title_hint">Title</string>
+    <string name="description_hint">Enter your card here.</string>
+    <string name="empty_holder_message">Cardholder Name is not valid</string>
+    <string name="empty_number_message">Card Number is not valid</string>
+    <string name="empty_expiration_message">Expiration Date is not valid</string>
+    <string name="empty_cvv_message">CVV is not valid</string>
+    <string name="no_data">No data</string>
+    <string name="no_cards">You have no cards yet!\nPlease add one!</string>
+    <string name="successfully_deleted_card_message">Card was deleted</string>
+    <string name="successfully_added_card_message">Card added</string>
+
+    <!-- Content Descriptions -->
+    <string name="no_cards_image_content_description">No cards image</string>
+
+</resources>

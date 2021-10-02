@@ -1,0 +1,137 @@
+plugins {
+    id 'com.android.application'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+    id 'androidx.navigation.safeargs.kotlin'
+    id 'dagger.hilt.android.plugin'
+}
+
+android {
+    compileSdk 30
+
+    defaultConfig {
+        applicationId "com.silentnuke.bits.wallet"
+        minSdk 21
+        targetSdk 30
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "com.silentnuke.bits.wallet.CustomTestRunner"
+    }
+
+    android {
+        sourceSets {
+            String sharedTestDir = 'src/sharedTest/java'
+            test {
+                java.srcDirs += sharedTestDir
+            }
+            androidTest {
+                java.srcDirs += sharedTestDir
+            }
+        }
+    }
+
+    buildTypes {
+        debug {
+            minifyEnabled false
+            testCoverageEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+
+        release {
+            minifyEnabled true
+            shrinkResources true
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+
+    testOptions.unitTests {
+        includeAndroidResources = true
+
+        all {
+            testLogging {
+                events 'passed', 'skipped', 'failed', 'standardOut', 'standardError'
+            }
+        }
+    }
+
+    dataBinding {
+        enabled = true
+        enabledForTests = true
+    }
+
+    compileOptions {
+        sourceCompatibility = 1.8
+        targetCompatibility = 1.8
+    }
+
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
+
+    packagingOptions {
+        // Multiple dependency bring these files in. Exclude them to enable
+        // our test APK to build (has no effect on our AARs)
+        excludes += "/META-INF/AL2.0"
+        excludes += "/META-INF/LGPL2.1"
+    }
+}
+
+kapt {
+    correctErrorTypes true
+}
+
+dependencies {
+
+    implementation "androidx.core:core-ktx:$deps.coreKtx"
+    implementation "androidx.appcompat:appcompat:$deps.appCompat"
+    implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
+    implementation "com.google.android.material:material:$deps.materialVersion"
+    implementation "androidx.recyclerview:recyclerview:$deps.recyclerViewVersion"
+    implementation "com.jakewharton.timber:timber:$deps.timberVersion"
+    implementation "androidx.room:room-runtime:$deps.roomVersion"
+    implementation "androidx.room:room-ktx:$deps.roomVersion"
+    kapt "androidx.room:room-compiler:$deps.roomVersion"
+    androidTestImplementation "androidx.room:room-testing:$deps.roomVersion"
+
+    // Architecture Components
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$deps.archLifecycleVersion"
+    implementation "androidx.lifecycle:lifecycle-livedata-ktx:$deps.archLifecycleVersion"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-savedstate:$deps.archLifecycleVersion"
+    implementation "androidx.lifecycle:lifecycle-common-java8:$deps.archLifecycleVersion"
+    androidTestImplementation "androidx.arch.core:core-testing:$deps.archTestingVersion"
+    implementation "androidx.navigation:navigation-fragment-ktx:$deps.navigationVersion"
+    implementation "androidx.navigation:navigation-ui-ktx:$deps.navigationVersion"
+    androidTestImplementation "androidx.navigation:navigation-testing:$deps.navigationVersion"
+
+    // Hilt
+    implementation "com.google.dagger:hilt-android:$deps.hiltVersion"
+    kapt "com.google.dagger:hilt-compiler:$deps.hiltVersion"
+    androidTestImplementation  "com.google.dagger:hilt-android-testing:$deps.hiltVersion"
+    kaptAndroidTest "com.google.dagger:hilt-compiler:$deps.hiltVersion"
+    testImplementation "com.google.dagger:hilt-android-testing:$deps.hiltVersion"
+    kaptTest "com.google.dagger:hilt-compiler:$deps.hiltVersion"
+
+    implementation 'com.braintreepayments:card-form:5.2.0'
+
+    // Dependencies for local unit tests
+    testImplementation "junit:junit:$deps.junitVersion"
+    testImplementation "androidx.test.ext:junit-ktx:$deps.androidXTestExtKotlinRunnerVersion"
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-android:$deps.coroutinesVersion"
+    testImplementation "org.jetbrains.kotlinx:kotlinx-coroutines-test:$deps.coroutinesVersion"
+    testImplementation "androidx.test:core-ktx:$deps.androidXTestCoreVersion"
+    testImplementation "androidx.test.ext:junit-ktx:$deps.androidXTestExtKotlinRunnerVersion"
+    testImplementation "androidx.test:rules:$deps.androidXTestRulesVersion"
+    testImplementation "androidx.arch.core:core-testing:$deps.archTestingVersion"
+    testImplementation "org.robolectric:robolectric:$deps.robolectricVersion"
+
+    // AndroidX Test - Instrumented testing
+    implementation "androidx.test.espresso:espresso-idling-resource:$deps.espressoVersion"
+    androidTestImplementation "androidx.test.espresso:espresso-core:$deps.espressoVersion"
+    androidTestImplementation "androidx.test:runner:$deps.androidXTestRulesVersion"
+    androidTestImplementation "androidx.test:rules:$deps.androidXTestRulesVersion"
+    androidTestImplementation "androidx.test.ext:junit-ktx:$deps.androidXTestExtKotlinRunnerVersion"
+    // Once https://issuetracker.google.com/127986458 is fixed this can be androidTestImplementation
+    debugImplementation "androidx.fragment:fragment-testing:$deps.fragmentVersion"
+
+}
